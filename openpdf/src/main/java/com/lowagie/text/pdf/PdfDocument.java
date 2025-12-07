@@ -79,7 +79,7 @@ import com.lowagie.text.pdf.collection.PdfCollection;
 import com.lowagie.text.pdf.draw.DrawInterface;
 import com.lowagie.text.pdf.internal.PdfAnnotationsImp;
 import com.lowagie.text.pdf.internal.PdfViewerPreferencesImp;
-import java.awt.Color;
+//import java.awt.Color;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -219,7 +219,7 @@ public class PdfDocument extends Document {
             PdfString date = new PdfDate();
             put(PdfName.CREATIONDATE, date);
         }
-        
+
         /**
          * Adds the modification date (=current date and time) to the document.
          */
@@ -1496,7 +1496,7 @@ public class PdfDocument extends Document {
         // looping over all the chunks in 1 line
         for (Iterator j = line.iterator(); j.hasNext(); ) {
             chunk = (PdfChunk) j.next();
-            Color color = chunk.color();
+//            Color color = chunk.color();
             hScale = 1;
 
             if (chunkStrokeIdx <= lastChunkStroke) {
@@ -1551,7 +1551,7 @@ public class PdfDocument extends Document {
                         float descender = chunk.font().getFont().getFontDescriptor(BaseFont.DESCENT, fontSize);
                         Object[] bgr = (Object[]) chunk.getAttribute(Chunk.BACKGROUND);
 
-                        graphics.setColorFill((Color) bgr[0]);
+//                        graphics.setColorFill((Color) bgr[0]);
 
                         float[] extra = (float[]) bgr[1];
                         graphics.rectangle(xMarker - extra[0],
@@ -1570,28 +1570,28 @@ public class PdfDocument extends Document {
                         if (nextChunk == null)
                             subtract += hangingCorrection;
                         Object[][] unders = (Object[][]) chunk.getAttribute(Chunk.UNDERLINE);
-                        Color scolor;
-                        for (Object[] obj : unders) {
-                            scolor = (Color) obj[0];
-                            float[] ps = (float[]) obj[1];
-                            if (scolor == null)
-                                scolor = color;
-                            if (scolor != null)
-                                graphics.setColorStroke(scolor);
-                            float fsize = chunk.font().size();
-                            graphics.setLineWidth(ps[0] + fsize * ps[1]);
-                            float shift = ps[2] + fsize * ps[3];
-                            int cap2 = (int) ps[4];
-                            if (cap2 != 0)
-                                graphics.setLineCap(cap2);
-                            graphics.moveTo(xMarker, yMarker + shift);
-                            graphics.lineTo(xMarker + width - subtract, yMarker + shift);
-                            graphics.stroke();
-                            if (scolor != null)
-                                graphics.resetGrayStroke();
-                            if (cap2 != 0)
-                                graphics.setLineCap(0);
-                        }
+//                        Color scolor;
+//                        for (Object[] obj : unders) {
+//                            scolor = (Color) obj[0];
+//                            float[] ps = (float[]) obj[1];
+//                            if (scolor == null)
+//                                scolor = color;
+//                            if (scolor != null)
+//                                graphics.setColorStroke(scolor);
+//                            float fsize = chunk.font().size();
+//                            graphics.setLineWidth(ps[0] + fsize * ps[1]);
+//                            float shift = ps[2] + fsize * ps[3];
+//                            int cap2 = (int) ps[4];
+//                            if (cap2 != 0)
+//                                graphics.setLineCap(cap2);
+//                            graphics.moveTo(xMarker, yMarker + shift);
+//                            graphics.lineTo(xMarker + width - subtract, yMarker + shift);
+//                            graphics.stroke();
+//                            if (scolor != null)
+//                                graphics.resetGrayStroke();
+//                            if (cap2 != 0)
+//                                graphics.setLineCap(0);
+//                        }
                         graphics.setLineWidth(1);
                     }
                     if (chunk.isAttribute(Chunk.ACTION)) {
@@ -1694,7 +1694,7 @@ public class PdfDocument extends Document {
             Object[] textRender = (Object[]) chunk.getAttribute(Chunk.TEXTRENDERMODE);
             int tr = 0;
             float strokeWidth = 1;
-            Color strokeColor = null;
+//            Color strokeColor = null;
             Float fr = (Float)chunk.getAttribute(Chunk.SUBSUPSCRIPT);
             if (textRender != null) {
                 tr = (Integer) textRender[0] & 3;
@@ -1704,17 +1704,17 @@ public class PdfDocument extends Document {
                     strokeWidth = (Float) textRender[1];
                     if (strokeWidth != 1)
                         text.setLineWidth(strokeWidth);
-                    strokeColor = (Color)textRender[2];
-                    if (strokeColor == null)
-                        strokeColor = color;
-                    if (strokeColor != null)
-                        text.setColorStroke(strokeColor);
+//                    strokeColor = (Color)textRender[2];
+//                    if (strokeColor == null)
+//                        strokeColor = color;
+//                    if (strokeColor != null)
+//                        text.setColorStroke(strokeColor);
                 }
             }
             if (fr != null)
                 rise = fr;
-            if (color != null)
-                text.setColorFill(color);
+//            if (color != null)
+//                text.setColorFill(color);
             if (rise != 0)
                 text.setTextRise(rise);
             if (chunk.isImage()) {
@@ -1774,12 +1774,12 @@ public class PdfDocument extends Document {
 
             if (rise != 0)
                 text.setTextRise(0);
-            if (color != null)
-                text.resetRGBColorFill();
+//            if (color != null)
+//                text.resetRGBColorFill();
             if (tr != PdfContentByte.TEXT_RENDER_MODE_FILL)
                 text.setTextRenderingMode(PdfContentByte.TEXT_RENDER_MODE_FILL);
-            if (strokeColor != null)
-                text.resetRGBColorStroke();
+//            if (strokeColor != null)
+//                text.resetRGBColorStroke();
             if (strokeWidth != 1)
                 text.setLineWidth(1);
             if (chunk.isAttribute(Chunk.SKEW) || chunk.isAttribute(Chunk.HSCALE)) {
@@ -2947,16 +2947,16 @@ public class PdfDocument extends Document {
                     // Draw the bottom line
 
                     // the color is set to the color of the element
-                    Color tColor = table.getBorderColor();
-                    if (tColor != null) {
-                        graphics.setColorStroke(tColor);
-                    }
+//                    Color tColor = table.getBorderColor();
+//                    if (tColor != null) {
+//                        graphics.setColorStroke(tColor);
+//                    }
                     graphics.moveTo(table.getLeft(), Math.max(table.getBottom(), indentBottom()));
                     graphics.lineTo(table.getRight(), Math.max(table.getBottom(), indentBottom()));
                     graphics.stroke();
-                    if (tColor != null) {
-                        graphics.resetRGBColorStroke();
-                    }
+//                    if (tColor != null) {
+//                        graphics.resetRGBColorStroke();
+//                    }
                 }
 
                 // old page

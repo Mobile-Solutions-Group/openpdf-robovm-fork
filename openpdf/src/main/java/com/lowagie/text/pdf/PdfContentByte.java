@@ -115,9 +115,9 @@ public class PdfContentByte {
         /** The current word spacing */
         protected float wordSpace = 0;
 
-        protected ExtendedColor colorFill = GrayColor.GRAYBLACK;
+//        protected ExtendedColor colorFill = GrayColor.GRAYBLACK;
 
-        protected ExtendedColor colorStroke = GrayColor.GRAYBLACK;
+//        protected ExtendedColor colorStroke = GrayColor.GRAYBLACK;
 
         protected PdfObject extGState = null;
 
@@ -138,8 +138,8 @@ public class PdfContentByte {
             scale = cp.scale;
             charSpace = cp.charSpace;
             wordSpace = cp.wordSpace;
-            colorFill = cp.colorFill;
-            colorStroke = cp.colorStroke;
+//            colorFill = cp.colorFill;
+//            colorStroke = cp.colorStroke;
             extGState = cp.extGState;
         }
 
@@ -233,7 +233,7 @@ public class PdfContentByte {
     private int lastStrokeAlpha = MAX_COLOR_VALUE;
 
     // Correction to apply to next moveText after calling LayoutProcessor.showText
-    private Point2D layoutPositionCorrection = null;
+//    private Point2D layoutPositionCorrection = null;
 
     static {
         abrev.put(PdfName.BITSPERCOMPONENT, "/BPC ");
@@ -882,15 +882,15 @@ public class PdfContentByte {
         content.append(x).append(' ').append(y).append(' ').append(w).append(' ').append(h).append(" re").append_i(separator);
     }
 
-    private boolean compareColors(Color c1, Color c2) {
-        if (c1 == null && c2 == null)
-            return true;
-        if (c1 == null || c2 == null)
-            return false;
-        if (c1 instanceof ExtendedColor)
-            return c1.equals(c2);
-        return c2.equals(c1);
-    }
+//    private boolean compareColors(Color c1, Color c2) {
+//        if (c1 == null && c2 == null)
+//            return true;
+//        if (c1 == null || c2 == null)
+//            return false;
+//        if (c1 instanceof ExtendedColor)
+//            return c1.equals(c2);
+//        return c2.equals(c1);
+//    }
 
     /**
      * Adds a variable width border to the current path.
@@ -907,27 +907,27 @@ public class PdfContentByte {
         float wb = rect.getBorderWidthBottom();
         float wr = rect.getBorderWidthRight();
         float wl = rect.getBorderWidthLeft();
-        Color ct = rect.getBorderColorTop();
-        Color cb = rect.getBorderColorBottom();
-        Color cr = rect.getBorderColorRight();
-        Color cl = rect.getBorderColorLeft();
+//        Color ct = rect.getBorderColorTop();
+//        Color cb = rect.getBorderColorBottom();
+//        Color cr = rect.getBorderColorRight();
+//        Color cl = rect.getBorderColorLeft();
         saveState();
         setLineCap(PdfContentByte.LINE_CAP_BUTT);
         setLineJoin(PdfContentByte.LINE_JOIN_MITER);
         float clw = 0;
         boolean cdef = false;
-        Color ccol = null;
+//        Color ccol = null;
         boolean cdefi = false;
-        Color cfil = null;
+//        Color cfil = null;
         // draw top
         if (wt > 0) {
             setLineWidth(clw = wt);
             cdef = true;
-            if (ct == null)
-                resetRGBColorStroke();
-            else
-                setColorStroke(ct);
-            ccol = ct;
+//            if (ct == null)
+//                resetRGBColorStroke();
+//            else
+//                setColorStroke(ct);
+//            ccol = ct;
             moveTo(l, t - wt / 2f);
             lineTo(r, t - wt / 2f);
             stroke();
@@ -937,14 +937,14 @@ public class PdfContentByte {
         if (wb > 0) {
             if (wb != clw)
                 setLineWidth(clw = wb);
-            if (!cdef || !compareColors(ccol, cb)) {
-                cdef = true;
-                if (cb == null)
-                    resetRGBColorStroke();
-                else
-                    setColorStroke(cb);
-                ccol = cb;
-            }
+//            if (!cdef || !compareColors(ccol, cb)) {
+//                cdef = true;
+//                if (cb == null)
+//                    resetRGBColorStroke();
+//                else
+//                    setColorStroke(cb);
+//                ccol = cb;
+//            }
             moveTo(r, b + wb / 2f);
             lineTo(l, b + wb / 2f);
             stroke();
@@ -954,26 +954,28 @@ public class PdfContentByte {
         if (wr > 0) {
             if (wr != clw)
                 setLineWidth(clw = wr);
-            if (!cdef || !compareColors(ccol, cr)) {
-                cdef = true;
-                if (cr == null)
-                    resetRGBColorStroke();
-                else
-                    setColorStroke(cr);
-                ccol = cr;
-            }
-            boolean bt = compareColors(ct, cr);
-            boolean bb = compareColors(cb, cr);
+//            if (!cdef || !compareColors(ccol, cr)) {
+//                cdef = true;
+//                if (cr == null)
+//                    resetRGBColorStroke();
+//                else
+//                    setColorStroke(cr);
+//                ccol = cr;
+//            }
+//            boolean bt = compareColors(ct, cr);
+//            boolean bb = compareColors(cb, cr);
+            boolean bt = true;
+            boolean bb = true;
             moveTo(r - wr / 2f, bt ? t : t - wt);
             lineTo(r - wr / 2f, bb ? b : b + wb);
             stroke();
             if (!bt || !bb) {
                 cdefi = true;
-                if (cr == null)
-                    resetRGBColorFill();
-                else
-                    setColorFill(cr);
-                cfil = cr;
+//                if (cr == null)
+//                    resetRGBColorFill();
+//                else
+//                    setColorFill(cr);
+//                cfil = cr;
                 if (!bt) {
                     moveTo(r, t);
                     lineTo(r, t - wt);
@@ -993,24 +995,24 @@ public class PdfContentByte {
         if (wl > 0) {
             if (wl != clw)
                 setLineWidth(wl);
-            if (!cdef || !compareColors(ccol, cl)) {
-                if (cl == null)
-                    resetRGBColorStroke();
-                else
-                    setColorStroke(cl);
-            }
-            boolean bt = compareColors(ct, cl);
-            boolean bb = compareColors(cb, cl);
+//            if (!cdef || !compareColors(ccol, cl)) {
+//                if (cl == null)
+//                    resetRGBColorStroke();
+//                else
+//                    setColorStroke(cl);
+//            }
+            boolean bt = true;
+            boolean bb = true;
             moveTo(l + wl / 2f, bt ? t : t - wt);
             lineTo(l + wl / 2f, bb ? b : b + wb);
             stroke();
             if (!bt || !bb) {
-                if (!cdefi || !compareColors(cfil, cl)) {
-                    if (cl == null)
-                        resetRGBColorFill();
-                    else
-                        setColorFill(cl);
-                }
+//                if (!cdefi || !compareColors(cfil, cl)) {
+//                    if (cl == null)
+//                        resetRGBColorFill();
+//                    else
+//                        setColorFill(cl);
+//                }
                 if (!bt) {
                     moveTo(l, t);
                     lineTo(l, t - wt);
@@ -1391,7 +1393,7 @@ public class PdfContentByte {
         inText = true;
         state.xTLM = 0;
         state.yTLM = 0;
-        layoutPositionCorrection = null;
+//        layoutPositionCorrection = null;
         content.append("BT").append_i(separator);
     }
 
@@ -1542,11 +1544,11 @@ public class PdfContentByte {
         BaseFont baseFont = state.fontDetails.getBaseFont();
         if (LayoutProcessor.supportsFont(baseFont)) {
             Point2D corr = LayoutProcessor.showText(this, baseFont, state.size, text);
-            if (layoutPositionCorrection==null) {
-                layoutPositionCorrection = corr;
-            } else {
-                layoutPositionCorrection.setLocation(layoutPositionCorrection.getX()+corr.getX(), layoutPositionCorrection.getY()+corr.getY());
-            }
+//            if (layoutPositionCorrection==null) {
+//                layoutPositionCorrection = corr;
+//            } else {
+//                layoutPositionCorrection.setLocation(layoutPositionCorrection.getX()+corr.getX(), layoutPositionCorrection.getY()+corr.getY());
+//            }
         } else {
             showTextBasic(text);
         }
@@ -1705,11 +1707,11 @@ public class PdfContentByte {
      * @param       y           y-coordinate of the new current point
      */
     public void moveText(float x, float y) {
-        if(layoutPositionCorrection != null) {
-            x += (float) layoutPositionCorrection.getX();
-            y += (float) layoutPositionCorrection.getY();
-            layoutPositionCorrection = null;
-        }
+//        if(layoutPositionCorrection != null) {
+//            x += (float) layoutPositionCorrection.getX();
+//            y += (float) layoutPositionCorrection.getY();
+//            layoutPositionCorrection = null;
+//        }
         moveTextBasic(x, y);
     }
 
@@ -1734,11 +1736,11 @@ public class PdfContentByte {
      * @param       y           y-coordinate of the new current point
      */
     public void moveTextWithLeading(float x, float y) {
-        if(layoutPositionCorrection != null) {
-            x += (float) layoutPositionCorrection.getX();
-            y += (float) layoutPositionCorrection.getY();
-            layoutPositionCorrection = null;
-        }
+//        if(layoutPositionCorrection != null) {
+//            x += (float) layoutPositionCorrection.getX();
+//            y += (float) layoutPositionCorrection.getY();
+//            layoutPositionCorrection = null;
+//        }
         state.xTLM += x;
         state.yTLM += y;
         state.leading = -y;
@@ -2384,37 +2386,37 @@ public class PdfContentByte {
      * @param color the color
      */
     public void setColorStroke(Color color) {
-        PdfXConformanceImp.checkPDFXConformance(writer, PdfXConformanceImp.PDFXKEY_COLOR, color);
-        int type = ExtendedColor.getType(color);
-        switch (type) {
-            case ExtendedColor.TYPE_GRAY: {
-                final GrayColor grayColor = (GrayColor) color;
-                setGrayStroke(grayColor.getGray(), grayColor.getAlpha());
-                break;
-            }
-            case ExtendedColor.TYPE_CMYK: {
-                CMYKColor cmyk = (CMYKColor)color;
-                setCMYKColorStrokeF(cmyk.getCyan(), cmyk.getMagenta(), cmyk.getYellow(), cmyk.getBlack(), cmyk.getAlpha());
-                break;
-            }
-            case ExtendedColor.TYPE_SEPARATION: {
-                SpotColor spot = (SpotColor)color;
-                setColorStroke(spot.getPdfSpotColor(), spot.getTint());
-                break;
-            }
-            case ExtendedColor.TYPE_PATTERN: {
-                PatternColor pat = (PatternColor) color;
-                setPatternStroke(pat.getPainter());
-                break;
-            }
-            case ExtendedColor.TYPE_SHADING: {
-                ShadingColor shading = (ShadingColor) color;
-                setShadingStroke(shading.getPdfShadingPattern());
-                break;
-            }
-            default:
-                setRGBColorStroke(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-        }
+//        PdfXConformanceImp.checkPDFXConformance(writer, PdfXConformanceImp.PDFXKEY_COLOR, color);
+//        int type = ExtendedColor.getType(color);
+//        switch (type) {
+//            case ExtendedColor.TYPE_GRAY: {
+//                final GrayColor grayColor = (GrayColor) color;
+//                setGrayStroke(grayColor.getGray(), grayColor.getAlpha());
+//                break;
+//            }
+//            case ExtendedColor.TYPE_CMYK: {
+//                CMYKColor cmyk = (CMYKColor)color;
+//                setCMYKColorStrokeF(cmyk.getCyan(), cmyk.getMagenta(), cmyk.getYellow(), cmyk.getBlack(), cmyk.getAlpha());
+//                break;
+//            }
+//            case ExtendedColor.TYPE_SEPARATION: {
+//                SpotColor spot = (SpotColor)color;
+//                setColorStroke(spot.getPdfSpotColor(), spot.getTint());
+//                break;
+//            }
+//            case ExtendedColor.TYPE_PATTERN: {
+//                PatternColor pat = (PatternColor) color;
+//                setPatternStroke(pat.getPainter());
+//                break;
+//            }
+//            case ExtendedColor.TYPE_SHADING: {
+//                ShadingColor shading = (ShadingColor) color;
+//                setShadingStroke(shading.getPdfShadingPattern());
+//                break;
+//            }
+//            default:
+//                setRGBColorStroke(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+//        }
     }
 
     private void saveColorStroke(ExtendedColor extendedColor) {
@@ -2424,7 +2426,7 @@ public class PdfContentByte {
             setGState(gState);
             lastStrokeAlpha = extendedColor.getAlpha();
         }
-        if (state != null) state.colorStroke = extendedColor;
+//        if (state != null) state.colorStroke = extendedColor;
     }
 
     /** Sets the fill color. <CODE>color</CODE> can be an
@@ -2432,37 +2434,37 @@ public class PdfContentByte {
      * @param color the color
      */
     public void setColorFill(Color color) {
-        PdfXConformanceImp.checkPDFXConformance(writer, PdfXConformanceImp.PDFXKEY_COLOR, color);
-        int type = ExtendedColor.getType(color);
-        switch (type) {
-            case ExtendedColor.TYPE_GRAY: {
-                GrayColor grayColor = (GrayColor) color;
-                setGrayFill(grayColor.getGray(), color.getAlpha() / MAX_INT_COLOR_VALUE);
-                break;
-            }
-            case ExtendedColor.TYPE_CMYK: {
-                CMYKColor cmyk = (CMYKColor) color;
-                setCMYKColorFillF(cmyk.getCyan(), cmyk.getMagenta(), cmyk.getYellow(), cmyk.getBlack(), cmyk.getAlpha() / MAX_INT_COLOR_VALUE);
-                break;
-            }
-            case ExtendedColor.TYPE_SEPARATION: {
-                SpotColor spot = (SpotColor) color;
-                setColorFill(spot.getPdfSpotColor(), spot.getTint());
-                break;
-            }
-            case ExtendedColor.TYPE_PATTERN: {
-                PatternColor pat = (PatternColor) color;
-                setPatternFill(pat.getPainter());
-                break;
-            }
-            case ExtendedColor.TYPE_SHADING: {
-                ShadingColor shading = (ShadingColor) color;
-                setShadingFill(shading.getPdfShadingPattern());
-                break;
-            }
-            default:
-                setRGBColorFill(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-        }
+//        PdfXConformanceImp.checkPDFXConformance(writer, PdfXConformanceImp.PDFXKEY_COLOR, color);
+//        int type = ExtendedColor.getType(color);
+//        switch (type) {
+//            case ExtendedColor.TYPE_GRAY: {
+//                GrayColor grayColor = (GrayColor) color;
+//                setGrayFill(grayColor.getGray(), color.getAlpha() / MAX_INT_COLOR_VALUE);
+//                break;
+//            }
+//            case ExtendedColor.TYPE_CMYK: {
+//                CMYKColor cmyk = (CMYKColor) color;
+//                setCMYKColorFillF(cmyk.getCyan(), cmyk.getMagenta(), cmyk.getYellow(), cmyk.getBlack(), cmyk.getAlpha() / MAX_INT_COLOR_VALUE);
+//                break;
+//            }
+//            case ExtendedColor.TYPE_SEPARATION: {
+//                SpotColor spot = (SpotColor) color;
+//                setColorFill(spot.getPdfSpotColor(), spot.getTint());
+//                break;
+//            }
+//            case ExtendedColor.TYPE_PATTERN: {
+//                PatternColor pat = (PatternColor) color;
+//                setPatternFill(pat.getPainter());
+//                break;
+//            }
+//            case ExtendedColor.TYPE_SHADING: {
+//                ShadingColor shading = (ShadingColor) color;
+//                setShadingFill(shading.getPdfShadingPattern());
+//                break;
+//            }
+//            default:
+//                setRGBColorFill(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+//        }
     }
 
     private void saveColorFill(ExtendedColor extendedColor) {
@@ -2472,7 +2474,7 @@ public class PdfContentByte {
             setGState(gState);
             lastFillAlpha = extendedColor.getAlpha();
         }
-        if (state != null) state.colorFill = extendedColor;
+//        if (state != null) state.colorFill = extendedColor;
     }
 
     /** Sets the fill color to a spot color.
@@ -2527,31 +2529,31 @@ public class PdfContentByte {
      * @param tint the tint if it is a spot color, ignored otherwise
      */
     void outputColorNumbers(Color color, float tint) {
-        PdfXConformanceImp.checkPDFXConformance(writer, PdfXConformanceImp.PDFXKEY_COLOR, color);
-        int type = ExtendedColor.getType(color);
-        switch (type) {
-            case ExtendedColor.TYPE_RGB:
-                content.append((float)(color.getRed()) / MAX_INT_COLOR_VALUE);
-                content.append(' ');
-                content.append((float)(color.getGreen()) / MAX_INT_COLOR_VALUE);
-                content.append(' ');
-                content.append((float)(color.getBlue()) / MAX_INT_COLOR_VALUE);
-                break;
-            case ExtendedColor.TYPE_GRAY:
-                content.append(((GrayColor)color).getGray());
-                break;
-            case ExtendedColor.TYPE_CMYK: {
-                CMYKColor cmyk = (CMYKColor)color;
-                content.append(cmyk.getCyan()).append(' ').append(cmyk.getMagenta());
-                content.append(' ').append(cmyk.getYellow()).append(' ').append(cmyk.getBlack());
-                break;
-            }
-            case ExtendedColor.TYPE_SEPARATION:
-                content.append(tint);
-                break;
-            default:
-                throw new RuntimeException(MessageLocalization.getComposedMessage("invalid.color.type"));
-        }
+//        PdfXConformanceImp.checkPDFXConformance(writer, PdfXConformanceImp.PDFXKEY_COLOR, color);
+//        int type = ExtendedColor.getType(color);
+//        switch (type) {
+//            case ExtendedColor.TYPE_RGB:
+//                content.append((float)(color.getRed()) / MAX_INT_COLOR_VALUE);
+//                content.append(' ');
+//                content.append((float)(color.getGreen()) / MAX_INT_COLOR_VALUE);
+//                content.append(' ');
+//                content.append((float)(color.getBlue()) / MAX_INT_COLOR_VALUE);
+//                break;
+//            case ExtendedColor.TYPE_GRAY:
+//                content.append(((GrayColor)color).getGray());
+//                break;
+//            case ExtendedColor.TYPE_CMYK: {
+//                CMYKColor cmyk = (CMYKColor)color;
+//                content.append(cmyk.getCyan()).append(' ').append(cmyk.getMagenta());
+//                content.append(' ').append(cmyk.getYellow()).append(' ').append(cmyk.getBlack());
+//                break;
+//            }
+//            case ExtendedColor.TYPE_SEPARATION:
+//                content.append(tint);
+//                break;
+//            default:
+//                throw new RuntimeException(MessageLocalization.getComposedMessage("invalid.color.type"));
+//        }
     }
 
     /** Sets the fill color to an uncolored pattern.
@@ -2591,10 +2593,10 @@ public class PdfContentByte {
      * @param color the color of the pattern
      */
     public void setPatternStroke(PdfPatternPainter p, Color color) {
-        if (ExtendedColor.getType(color) == ExtendedColor.TYPE_SEPARATION)
-            setPatternStroke(p, color, ((SpotColor)color).getTint());
-        else
-            setPatternStroke(p, color, 0);
+//        if (ExtendedColor.getType(color) == ExtendedColor.TYPE_SEPARATION)
+//            setPatternStroke(p, color, ((SpotColor)color).getTint());
+//        else
+//            setPatternStroke(p, color, 0);
     }
 
     /** Sets the stroke color to an uncolored pattern.
@@ -2623,7 +2625,7 @@ public class PdfContentByte {
      */
     public void setPatternStroke(PdfPatternPainter p) {
         if (p.isStencil()) {
-            setPatternStroke(p, p.getDefaultColor());
+//            setPatternStroke(p, p.getDefaultColor());
             return;
         }
         checkWriter();
@@ -2923,7 +2925,7 @@ public class PdfContentByte {
         if (lly > ury) { float y = lly; lly = ury; ury = y; }
         // silver rectangle not filled
         saveState();
-        setColorStroke(new Color(0xC0, 0xC0, 0xC0));
+//        setColorStroke(new Color(0xC0, 0xC0, 0xC0));
         setLineWidth(1);
         setLineCap(0);
         rectangle(llx, lly, urx - llx, ury - lly);
@@ -2931,11 +2933,11 @@ public class PdfContentByte {
         // white rectangle filled
         setLineWidth(1);
         setLineCap(0);
-        setColorFill(new Color(MAX_COLOR_VALUE, MAX_COLOR_VALUE, MAX_COLOR_VALUE));
+//        setColorFill(new Color(MAX_COLOR_VALUE, MAX_COLOR_VALUE, MAX_COLOR_VALUE));
         rectangle(llx + 0.5f, lly + 0.5f, urx - llx - 1f, ury -lly - 1f);
         fill();
         // silver lines
-        setColorStroke(new Color(0xC0, 0xC0, 0xC0));
+//        setColorStroke(new Color(0xC0, 0xC0, 0xC0));
         setLineWidth(1);
         setLineCap(0);
         moveTo(llx + 1f, lly + 1.5f);
@@ -2943,7 +2945,7 @@ public class PdfContentByte {
         lineTo(urx - 1.5f, ury - 1f);
         stroke();
         // gray lines
-        setColorStroke(new Color(0xA0, 0xA0, 0xA0));
+//        setColorStroke(new Color(0xA0, 0xA0, 0xA0));
         setLineWidth(1);
         setLineCap(0);
         moveTo(llx + 1f, lly + 1);
@@ -2951,7 +2953,7 @@ public class PdfContentByte {
         lineTo(urx - 1f, ury - 1f);
         stroke();
         // black lines
-        setColorStroke(new Color(0x00, 0x00, 0x00));
+//        setColorStroke(new Color(0x00, 0x00, 0x00));
         setLineWidth(1);
         setLineCap(0);
         moveTo(llx + 2f, lly + 2f);

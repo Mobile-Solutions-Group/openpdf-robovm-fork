@@ -64,6 +64,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Collections;
 import java.util.Map;
 import org.w3c.dom.Node;
 
@@ -193,7 +194,7 @@ public class AcroFields {
         	lastIDRNumber = indirectObject.getNumber();
         }
         PdfIndirectReference parentRef=null;
-        
+
         while (annot != null) {
           dic.mergeDifferent(annot);
           PdfString t = annot.getAsString(PdfName.T);
@@ -228,7 +229,7 @@ public class AcroFields {
         Item item = fields.get(name);
         if (item == null) {
             if(parentRef==null) {
-                //when there is no /Parent ref the item reference will be used 
+                //when there is no /Parent ref the item reference will be used
                 parentRef = indirectObject;
             }
             item = new Item(parentRef);
@@ -335,7 +336,7 @@ public class AcroFields {
     String[] out = new String[names.size()];
     return names.keySet().toArray(out);
   }
-  
+
   /**
    * Returns the names of the N-appearance dictionaries
    * @param fieldName name of the form field
@@ -1216,7 +1217,7 @@ public class AcroFields {
       throw new ExceptionConverter(e);
     }
   }
- 
+
   /**
    * Gets a field property. Valid property names are:
    * <p>
@@ -1377,7 +1378,7 @@ public class AcroFields {
               PdfNumber m = pdfColor.getAsNumber(1);
               PdfNumber y = pdfColor.getAsNumber(2);
               PdfNumber k = pdfColor.getAsNumber(3);
-              
+
               if(c!=null && m!=null && y!=null && k!=null) {
                   return new CMYKColor(c.floatValue(), m.floatValue(), y.floatValue(), k.floatValue());
               }
@@ -1532,8 +1533,8 @@ public class AcroFields {
       return false;
     }
     return true;
-  }  
-  
+  }
+
   /**
    * Merges an XML data structure into this form.
    *
@@ -1565,7 +1566,7 @@ public class AcroFields {
       }
     }
   }
-  
+
   /**
    * Allows merging the fields by a field reader. One use would be to set the fields by XFDF merging.
    *
@@ -2100,7 +2101,7 @@ public class AcroFields {
      * @since 2.1.5
      */
     public static final int WRITE_VALUE = 4;
-    
+
     public Item(PdfIndirectReference ref) {
         this.fieldReference=ref;
     }
@@ -2191,11 +2192,11 @@ public class AcroFields {
      *
      */
     ArrayList<Integer> tabOrder = new ArrayList<>();
-    
+
     /**
      * The indirect reference of the item itself
      */
-    private PdfIndirectReference fieldReference; 
+    private PdfIndirectReference fieldReference;
 
     /**
      * Preferred method of determining the number of instances of a given field.
@@ -2352,7 +2353,7 @@ public class AcroFields {
     void addTabOrder(int order) {
       tabOrder.add(order);
     }
-    
+
     /**
      * Returns the indirect reference of the field itself
      * @return PdfIndirectReferenceof the field
@@ -2430,7 +2431,7 @@ public class AcroFields {
       int length = lengthOfSignedBlocks + unsignedBlock;
       sorter.add(new Object[]{entry.getKey(), new int[]{length, 0}});
     }
-    sorter.sort(new SorterComparator());
+    Collections.sort(sorter, new SorterComparator());
     if (!sorter.isEmpty()) {
       if (((int[]) sorter.get(sorter.size() - 1)[1])[0] == reader.getFileLength()) {
         totalRevisions = sorter.size();
@@ -2447,18 +2448,18 @@ public class AcroFields {
     }
     return new ArrayList<>(sigNames.keySet());
   }
-  
+
   /**
    * Method to differentiate the signed signatures types contained in a document.
    * Currently approval and certification signatures are supported. If a signature is not signed the type 'UNSIGNED' is used.
-   * 
+   *
    * @return {@code HashMap<String, SignatureType>} a list of signature names with its types.
    */
   public HashMap<String, SignatureType> getSignatureTypes(){
       if (this.sigTypes != null)
           return this.sigTypes;
       this.sigTypes = new HashMap<>();
-      
+
       for (Iterator<Map.Entry<String, Item>> it = this.fields.entrySet().iterator(); it.hasNext();) {
           Map.Entry<String,Item> entry = it.next();
           Item item = entry.getValue();
@@ -2486,25 +2487,25 @@ public class AcroFields {
               this.sigTypes.put(entry.getKey(), SignatureType.APPROVAL);
           }
           else {
-              
+
               for(int i=0;i<ref.size();i++) {
                   PdfDictionary sigRefDict = ref.getAsDict(i);
-                  
+
                   if(sigRefDict==null) {
                       //not PDF compliant since the content of the array must be a dictionary!
                       throw new IllegalStateException("The array of signature reference dictionaries does not contain the correct type (PdfDictionary) but a "+ref.getPdfObject(i).getClass().getName());
                   }
-                  
+
                   PdfName name = sigRefDict.getAsName(PdfName.TRANSFORMMETHOD);
-                  
+
                   if(name==null) {
                       //not PDF compliant since it is a required attribute
                       throw new IllegalStateException("The TRANSFORMMETHOD is missing which violates the PDF spec.");
                   }
-                  
+
                   if(name.equals(PdfName.DOCMDP)) {
                       PdfDictionary params = sigRefDict.getAsDict(PdfName.TRANSFORMPARAMS);
-                      
+
                       if(params==null) {
                           this.sigTypes.put(entry.getKey(), SignatureType.CERTIFICATION_ALL_CHANGES);
                       }
@@ -2786,10 +2787,10 @@ public class AcroFields {
     raf.seek(0);
     return new RevisionStream(raf, length);
   }
-  
+
   /**
    * Indicates whether the stamper is in append mode or not
-   * 
+   *
    * @return true when everything is done in the append mode otherwise false
    */
   public boolean isAppend() {
@@ -2978,14 +2979,14 @@ public class AcroFields {
   public XfaForm getXfa() {
     return xfa;
   }
-  
+
   /**
    * Removes the XFA stream from the document
    */
   public void removeXfa() {
       PdfDictionary root = this.reader.getCatalog();
       PdfDictionary acroform = root.getAsDict(PdfName.ACROFORM);
-      
+
       if(acroform!=null) {
           acroform.remove(PdfName.XFA);
           try {
